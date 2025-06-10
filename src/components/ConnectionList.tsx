@@ -1,6 +1,6 @@
-import React from 'react';
-import { Connection, DatabaseType } from '../types/Connection';
-import { ConnectionCard } from './ConnectionCard';
+import React from "react";
+import { Connection, DatabaseType } from "../types/Connection";
+import { ConnectionCard } from "./ConnectionCard";
 import {
   DndContext,
   closestCenter,
@@ -9,14 +9,14 @@ import {
   useSensor,
   useSensors,
   DragEndEvent,
-} from '@dnd-kit/core';
+} from "@dnd-kit/core";
 import {
   arrayMove,
   SortableContext,
   sortableKeyboardCoordinates,
   rectSortingStrategy,
-} from '@dnd-kit/sortable';
-import { Database, Sparkles } from 'lucide-react';
+} from "@dnd-kit/sortable";
+import { Database, Sparkles } from "lucide-react";
 
 interface ConnectionListProps {
   connections: Connection[];
@@ -50,7 +50,7 @@ export const ConnectionList: React.FC<ConnectionListProps> = ({
     if (over && active.id !== over.id) {
       const oldIndex = connections.findIndex((item) => item.id === active.id);
       const newIndex = connections.findIndex((item) => item.id === over.id);
-      
+
       const newOrder = arrayMove(connections, oldIndex, newIndex);
       onReorder(type, newOrder);
     }
@@ -71,15 +71,10 @@ export const ConnectionList: React.FC<ConnectionListProps> = ({
         <h3 className="text-xl font-semibold text-gray-900 mb-3">
           No {type} connections yet
         </h3>
-        <p className="text-gray-500 max-w-md mx-auto leading-relaxed">
-          Create your first {type} connection to start managing your databases with our premium interface.
+        <p className="text-gray-500 max-w-lg mx-auto leading-relaxed">
+          Create your first {type} connection to start managing your databases
+     
         </p>
-        <div className="mt-6">
-          <div className="inline-flex items-center space-x-2 px-4 py-2 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-full text-sm text-blue-600 font-medium">
-            <Sparkles className="w-4 h-4" />
-            <span>Professional Database Management</span>
-          </div>
-        </div>
       </div>
     );
   }

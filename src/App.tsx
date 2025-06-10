@@ -1,12 +1,19 @@
-import React, { useState } from 'react';
-import { DatabaseType, Connection } from './types/Connection';
-import { useConnections } from './hooks/useConnections';
-import { DatabaseTabs } from './components/DatabaseTabs';
-import { ConnectionList } from './components/ConnectionList';
-import { AddConnectionModal } from './components/AddConnectionModal';
-import { EditConnectionModal } from './components/EditConnectionModal';
-import { exportConnections, importConnections } from './utils/importExport';
-import { Plus, Download, Upload, Database, Sparkles, Crown, Shield } from 'lucide-react';
+import { useState } from "react";
+import { DatabaseType, Connection } from "./types/Connection";
+import { useConnections } from "./hooks/useConnections";
+import { DatabaseTabs } from "./components/DatabaseTabs";
+import { ConnectionList } from "./components/ConnectionList";
+import { AddConnectionModal } from "./components/AddConnectionModal";
+import { EditConnectionModal } from "./components/EditConnectionModal";
+import { exportConnections, importConnections } from "./utils/importExport";
+import {
+  Plus,
+  Download,
+  Upload,
+  Database,
+  Sparkles,
+  Shield,
+} from "lucide-react";
 
 function App() {
   const {
@@ -20,15 +27,17 @@ function App() {
     getConnectionsByType,
   } = useConnections();
 
-  const [activeTab, setActiveTab] = useState<DatabaseType>('PostgreSQL');
+  const [activeTab, setActiveTab] = useState<DatabaseType>("PostgreSQL");
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  const [editingConnection, setEditingConnection] = useState<Connection | null>(null);
+  const [editingConnection, setEditingConnection] = useState<Connection | null>(
+    null
+  );
 
   const connectionCounts = {
-    PostgreSQL: getConnectionsByType('PostgreSQL').length,
-    MySQL: getConnectionsByType('MySQL').length,
-    Oracle: getConnectionsByType('Oracle').length,
+    PostgreSQL: getConnectionsByType("PostgreSQL").length,
+    MySQL: getConnectionsByType("MySQL").length,
+    Oracle: getConnectionsByType("Oracle").length,
   };
 
   const currentConnections = getConnectionsByType(activeTab);
@@ -38,18 +47,24 @@ function App() {
   };
 
   const handleImport = () => {
-    const input = document.createElement('input');
-    input.type = 'file';
-    input.accept = '.json';
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = ".json";
     input.onchange = async (e) => {
       const file = (e.target as HTMLInputElement).files?.[0];
       if (file) {
         try {
           const importedConnections = await importConnections(file);
           handleImportConnections(importedConnections);
-          alert(`Successfully imported ${importedConnections.length} connections!`);
+          alert(
+            `Successfully imported ${importedConnections.length} connections!`
+          );
         } catch (error) {
-          alert(error instanceof Error ? error.message : 'Failed to import connections');
+          alert(
+            error instanceof Error
+              ? error.message
+              : "Failed to import connections"
+          );
         }
       }
     };
@@ -79,8 +94,12 @@ function App() {
               <Sparkles className="w-6 h-6 text-yellow-400 animate-bounce" />
             </div>
           </div>
-          <h3 className="text-xl font-bold text-gray-900 mb-2">Loading Connections</h3>
-          <p className="text-gray-600">Preparing your premium database interface...</p>
+          <h3 className="text-xl font-bold text-gray-900 mb-2">
+            Loading Connections
+          </h3>
+          <p className="text-gray-600">
+            Preparing your premium database interface...
+          </p>
         </div>
       </div>
     );
@@ -97,9 +116,6 @@ function App() {
                 <div className="bg-gradient-to-r from-blue-600 to-indigo-600 p-3 rounded-2xl shadow-lg">
                   <Database className="w-8 h-8 text-white" />
                 </div>
-                <div className="absolute -top-1 -right-1">
-                  <Crown className="w-5 h-5 text-yellow-400" />
-                </div>
               </div>
               <div>
                 <h1 className="text-4xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent">
@@ -107,51 +123,40 @@ function App() {
                 </h1>
                 <p className="text-gray-600 mt-1 flex items-center space-x-2">
                   <Shield className="w-4 h-4" />
-                  <span>Professional Database Management Platform</span>
-                  <div className="px-2 py-1 bg-gradient-to-r from-yellow-400 to-orange-400 text-white text-xs font-bold rounded-full">
-                    PREMIUM
-                  </div>
+                  <span>
+                    Seamlessly Connect, Manange and Scale Across Multiple
+                    Databases
+                  </span>
                 </p>
-              </div>
-            </div>
-            
-            <div className="hidden lg:flex items-center space-x-4 text-sm text-gray-600">
-              <div className="flex items-center space-x-2">
-                <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-                <span>Secure Connections</span>
-              </div>
-              <div className="flex items-center space-x-2">
-                <Sparkles className="w-4 h-4 text-blue-500" />
-                <span>Enterprise Grade</span>
               </div>
             </div>
           </div>
         </div>
 
         {/* Action Buttons */}
-        <div className="flex flex-wrap gap-4 mb-8">
+        <div className="flex flex-wrap gap-3 mb-6">
           <button
             onClick={() => setIsAddModalOpen(true)}
-            className="inline-flex items-center space-x-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-6 py-3 rounded-xl hover:from-blue-700 hover:to-indigo-700 transition-all duration-200 font-semibold shadow-lg hover:shadow-xl transform hover:scale-105"
+            className="inline-flex items-center gap-1 bg-gradient-to-r from-blue-500 to-indigo-500 text-white text-sm px-4 py-2 rounded-lg hover:from-blue-600 hover:to-indigo-600 transition-all duration-150 font-medium shadow-md hover:shadow-lg transform hover:scale-105"
           >
-            <Plus className="w-5 h-5" />
+            <Plus className="w-4 h-4" />
             <span>Add Connection</span>
           </button>
-          
+
           <button
             onClick={handleExport}
             disabled={connections.length === 0}
-            className="inline-flex items-center space-x-2 bg-gradient-to-r from-green-600 to-emerald-600 text-white px-6 py-3 rounded-xl hover:from-green-700 hover:to-emerald-700 transition-all duration-200 font-semibold shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none transform hover:scale-105"
+            className="inline-flex items-center gap-1 bg-gradient-to-r from-green-500 to-emerald-500 text-white text-sm px-4 py-2 rounded-lg hover:from-green-600 hover:to-emerald-600 transition-all duration-150 font-medium shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none transform hover:scale-105"
           >
-            <Download className="w-5 h-5" />
+            <Download className="w-4 h-4" />
             <span>Export</span>
           </button>
-          
+
           <button
             onClick={handleImport}
-            className="inline-flex items-center space-x-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white px-6 py-3 rounded-xl hover:from-purple-700 hover:to-pink-700 transition-all duration-200 font-semibold shadow-lg hover:shadow-xl transform hover:scale-105"
+            className="inline-flex items-center gap-1 bg-gradient-to-r from-purple-500 to-pink-500 text-white text-sm px-4 py-2 rounded-lg hover:from-purple-600 hover:to-pink-600 transition-all duration-150 font-medium shadow-md hover:shadow-lg transform hover:scale-105"
           >
-            <Upload className="w-5 h-5" />
+            <Upload className="w-4 h-4" />
             <span>Import</span>
           </button>
         </div>
@@ -176,16 +181,17 @@ function App() {
                 </div>
               </h2>
               <p className="text-gray-600 mt-1">
-                Manage your {activeTab.toLowerCase()} database connections across all environments
+                Manage your {activeTab.toLowerCase()} database connections
+                across all environments
               </p>
             </div>
-            
+
             <div className="hidden sm:flex items-center space-x-2 text-sm text-gray-500">
               <Sparkles className="w-4 h-4" />
               <span>Drag to reorder</span>
             </div>
           </div>
-          
+
           <ConnectionList
             connections={currentConnections}
             type={activeTab}
