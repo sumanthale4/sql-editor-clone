@@ -5,6 +5,7 @@ import { DatabaseTabs } from "./components/DatabaseTabs";
 import { ConnectionList } from "./components/ConnectionList";
 import { AddConnectionModal } from "./components/AddConnectionModal";
 import { EditConnectionModal } from "./components/EditConnectionModal";
+import { PasswordUpdateModal } from "./components/PasswordUpdateModal";
 import { DatabaseMigration } from "./components/DatabaseMigration";
 import { exportConnections, importConnections } from "./utils/importExport";
 import {
@@ -33,7 +34,11 @@ function App() {
   const [activeTab, setActiveTab] = useState<DatabaseType>("PostgreSQL");
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
   const [editingConnection, setEditingConnection] = useState<Connection | null>(
+    null
+  );
+  const [updatingPasswordConnection, setUpdatingPasswordConnection] = useState<Connection | null>(
     null
   );
 
@@ -79,10 +84,21 @@ function App() {
     setIsEditModalOpen(true);
   };
 
+  const handleUpdatePassword = (connection: Connection) => {
+    setUpdatingPasswordConnection(connection);
+    setIsPasswordModalOpen(true);
+  };
+
   const handleSaveEdit = (updatedConnection: Connection) => {
     updateConnection(updatedConnection.id, updatedConnection);
     setIsEditModalOpen(false);
     setEditingConnection(null);
+  };
+
+  const handlePasswordUpdate = (connectionId: string, newPassword: string) => {
+    updateConnection(connectionId, { password: newPassword });
+    setIsPasswordModalOpen(false);
+    setUpdatingPasswordConnection(null);
   };
 
   if (loading) {
@@ -231,6 +247,7 @@ function App() {
             type={activeTab}
             onDelete={deleteConnection}
             onEdit={handleEditConnection}
+            onUpdatePassword={handleUpdatePassword}
             onReorder={reorderConnections}
           />
         </div>
@@ -251,6 +268,17 @@ function App() {
             setEditingConnection(null);
           }}
           onSave={handleSaveEdit}
+        />
+
+        {/* Password Update Modal */}
+        <PasswordUpdateModal
+          isOpen={isPasswordModalOpen}
+          connection={updatingPasswordConnection}
+          onClose={() => {
+            setIsPasswordModalOpen(false);
+            setUpdatingPasswordConnection(null);
+          }}
+          onUpdate={handlePasswordUpdate}
         />
       </div>
     </div>

@@ -7,6 +7,7 @@ import {
   Edit3,
   User,
   Network,
+  Key,
 } from "lucide-react";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
@@ -15,6 +16,7 @@ interface ConnectionCardProps {
   connection: Connection;
   onDelete: (id: string) => void;
   onEdit: (connection: Connection) => void;
+  onUpdatePassword: (connection: Connection) => void;
 }
 
 const environmentConfig = {
@@ -59,6 +61,7 @@ export const ConnectionCard: React.FC<ConnectionCardProps> = ({
   connection,
   onDelete,
   onEdit,
+  onUpdatePassword,
 }) => {
   const {
     attributes,
@@ -109,6 +112,13 @@ export const ConnectionCard: React.FC<ConnectionCardProps> = ({
           >
             <GripVertical className="w-4 h-4 text-gray-500" />
           </div>
+          <button
+            onClick={() => onUpdatePassword(connection)}
+            className="p-1 rounded bg-green-50 hover:bg-green-100 text-green-600"
+            title="Update password"
+          >
+            <Key className="w-4 h-4" />
+          </button>
           <button
             onClick={() => onEdit(connection)}
             className="p-1 rounded bg-blue-50 hover:bg-blue-100 text-blue-600"

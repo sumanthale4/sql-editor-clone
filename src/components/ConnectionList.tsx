@@ -23,6 +23,7 @@ interface ConnectionListProps {
   type: DatabaseType;
   onDelete: (id: string) => void;
   onEdit: (connection: Connection) => void;
+  onUpdatePassword: (connection: Connection) => void;
   onReorder: (type: DatabaseType, newOrder: Connection[]) => void;
 }
 
@@ -31,6 +32,7 @@ export const ConnectionList: React.FC<ConnectionListProps> = ({
   type,
   onDelete,
   onEdit,
+  onUpdatePassword,
   onReorder,
 }) => {
   const sensors = useSensors(
@@ -93,6 +95,7 @@ export const ConnectionList: React.FC<ConnectionListProps> = ({
               connection={connection}
               onDelete={onDelete}
               onEdit={onEdit}
+              onUpdatePassword={onUpdatePassword}
             />
           ))}
         </div>
