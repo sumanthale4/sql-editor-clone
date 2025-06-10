@@ -5,6 +5,7 @@ import { DatabaseTabs } from "./components/DatabaseTabs";
 import { ConnectionList } from "./components/ConnectionList";
 import { AddConnectionModal } from "./components/AddConnectionModal";
 import { EditConnectionModal } from "./components/EditConnectionModal";
+import { DatabaseMigration } from "./components/DatabaseMigration";
 import { exportConnections, importConnections } from "./utils/importExport";
 import {
   Plus,
@@ -13,6 +14,7 @@ import {
   Database,
   Sparkles,
   Shield,
+  GitBranch,
 } from "lucide-react";
 
 function App() {
@@ -27,6 +29,7 @@ function App() {
     getConnectionsByType,
   } = useConnections();
 
+  const [activeView, setActiveView] = useState<'connections' | 'migration'>('connections');
   const [activeTab, setActiveTab] = useState<DatabaseType>("PostgreSQL");
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -105,6 +108,11 @@ function App() {
     );
   }
 
+  // Show migration view
+  if (activeView === 'migration') {
+    return <DatabaseMigration />;
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
       <div className="max-w-7xl mx-auto px-4 py-8">
@@ -124,13 +132,39 @@ function App() {
                 <p className="text-gray-600 mt-1 flex items-center space-x-2">
                   <Shield className="w-4 h-4" />
                   <span>
-                    Seamlessly Connect, Manange and Scale Across Multiple
+                    Seamlessly Connect, Manage and Scale Across Multiple
                     Databases
                   </span>
                 </p>
               </div>
             </div>
           </div>
+        </div>
+
+        {/* Navigation Tabs */}
+        <div className="flex space-x-1 p-1 bg-gray-100 rounded-lg shadow-inner mb-6">
+          <button
+            onClick={() => setActiveView('connections')}
+            className={`flex items-center gap-2 px-4 py-2 rounded-md font-medium text-sm transition-all duration-200 flex-1 justify-center ${
+              activeView === 'connections'
+                ? 'bg-indigo-600 text-white shadow'
+                : 'text-gray-700 hover:bg-gray-200'
+            }`}
+          >
+            <Database className="w-4 h-4" />
+            <span>Connections</span>
+          </button>
+          <button
+            onClick={() => setActiveView('migration')}
+            className={`flex items-center gap-2 px-4 py-2 rounded-md font-medium text-sm transition-all duration-200 flex-1 justify-center ${
+              activeView === 'migration'
+                ? 'bg-indigo-600 text-white shadow'
+                : 'text-gray-700 hover:bg-gray-200'
+            }`}
+          >
+            <GitBranch className="w-4 h-4" />
+            <span>Migration</span>
+          </button>
         </div>
 
         {/* Action Buttons */}
