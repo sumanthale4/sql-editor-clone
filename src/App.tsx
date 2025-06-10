@@ -30,7 +30,9 @@ function App() {
     getConnectionsByType,
   } = useConnections();
 
-  const [activeView, setActiveView] = useState<'connections' | 'migration'>('connections');
+  const [activeView, setActiveView] = useState<"connections" | "migration">(
+    "connections"
+  );
   const [activeTab, setActiveTab] = useState<DatabaseType>("PostgreSQL");
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -38,9 +40,8 @@ function App() {
   const [editingConnection, setEditingConnection] = useState<Connection | null>(
     null
   );
-  const [updatingPasswordConnection, setUpdatingPasswordConnection] = useState<Connection | null>(
-    null
-  );
+  const [updatingPasswordConnection, setUpdatingPasswordConnection] =
+    useState<Connection | null>(null);
 
   const connectionCounts = {
     PostgreSQL: getConnectionsByType("PostgreSQL").length,
@@ -125,8 +126,8 @@ function App() {
   }
 
   // Show migration view
-  if (activeView === 'migration') {
-    return <DatabaseMigration />;
+  if (activeView === "migration") {
+    return <DatabaseMigration setActiveView={setActiveView}  />;
   }
 
   return (
@@ -157,31 +158,13 @@ function App() {
           </div>
         </div>
 
-        {/* Navigation Tabs */}
-        <div className="flex space-x-1 p-1 bg-gray-100 rounded-lg shadow-inner mb-6">
-          <button
-            onClick={() => setActiveView('connections')}
-            className={`flex items-center gap-2 px-4 py-2 rounded-md font-medium text-sm transition-all duration-200 flex-1 justify-center ${
-              activeView === 'connections'
-                ? 'bg-indigo-600 text-white shadow'
-                : 'text-gray-700 hover:bg-gray-200'
-            }`}
-          >
-            <Database className="w-4 h-4" />
-            <span>Connections</span>
-          </button>
-          <button
-            onClick={() => setActiveView('migration')}
-            className={`flex items-center gap-2 px-4 py-2 rounded-md font-medium text-sm transition-all duration-200 flex-1 justify-center ${
-              activeView === 'migration'
-                ? 'bg-indigo-600 text-white shadow'
-                : 'text-gray-700 hover:bg-gray-200'
-            }`}
-          >
-            <GitBranch className="w-4 h-4" />
-            <span>Migration</span>
-          </button>
-        </div>
+        <button
+          onClick={() => setActiveView("migration")}
+          className={` absolute top-3 right-3 flex items-center gap-2 px-4 py-2 rounded-md font-medium text-sm transition-all duration-200 flex-1 justify-center ${"bg-indigo-600 text-white shadow"}`}
+        >
+          <GitBranch className="w-4 h-4" />
+          <span>Migration</span>
+        </button>
 
         {/* Action Buttons */}
         <div className="flex flex-wrap gap-3 mb-6">

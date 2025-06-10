@@ -52,14 +52,6 @@ interface MigrationComponent {
   warning?: string;
 }
 
-const databaseIcons = {
-  MySQL: Database,
-  PostgreSQL: Database,
-  'SQL Server': Database,
-  Oracle: Layers,
-  MongoDB: Database,
-};
-
 const defaultPorts = {
   MySQL: 3306,
   PostgreSQL: 5432,
@@ -67,8 +59,13 @@ const defaultPorts = {
   Oracle: 1521,
   MongoDB: 27017,
 };
+interface DatabaseMigrationProps {
+  setActiveView: (view: "connections" | "migration") => void;
+}
 
-export const DatabaseMigration: React.FC = () => {
+export const DatabaseMigration: React.FC<DatabaseMigrationProps> = ({
+  setActiveView
+}) => {
   const [currentStep, setCurrentStep] = useState(1);
   const [sourceDb, setSourceDb] = useState<DatabaseConnection>({
     type: 'MySQL',
@@ -205,13 +202,20 @@ export const DatabaseMigration: React.FC = () => {
               <GitBranch className="w-8 h-8 text-white" />
             </div>
             <div>
-              <h1 className="text-4xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent">
+              <h1 className="text-4xl font-bold">
                 Database Migration Studio
               </h1>
               <p className="text-gray-600 mt-1">Seamlessly migrate between database systems with precision control</p>
             </div>
           </div>
 
+        <button
+          onClick={() => setActiveView("connections")}
+          className={` absolute top-3 right-3 flex items-center gap-2 px-4 py-2 rounded-md font-medium text-sm transition-all duration-200 flex-1 justify-center ${"bg-indigo-600 text-white shadow"}`}
+        >
+          <Database className="w-4 h-4" />
+          <span>Connections</span>
+        </button>
           {/* Progress Steps */}
           <div className="flex items-center justify-between bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-xl border border-white/50">
             {steps.map((step, index) => (

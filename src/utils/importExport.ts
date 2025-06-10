@@ -8,7 +8,7 @@ export const exportConnections = (connections: Connection[]): void => {
     
     const link = document.createElement('a');
     link.href = url;
-    link.download = `sql-connections-premium-${new Date().toISOString().slice(0, 10)}.json`;
+    link.download = `sql-connections-${new Date().toISOString().slice(0, 10)}.json`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -51,6 +51,7 @@ export const importConnections = (file: File): Promise<Connection[]> => {
         
         resolve(validatedConnections);
       } catch (error) {
+        console.log(error);
         reject(new Error('Invalid JSON file or file format'));
       }
     };
