@@ -38,10 +38,10 @@ export function DatabaseTree({ connections, schemas, activeConnection, onConnect
   const isExpanded = (nodeId: string) => expandedNodes.has(nodeId);
 
   return (
-    <div className="h-full bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 flex flex-col">
+    <div className="h-full bg-[var(--bg-primary)] border-r border-[var(--border-primary)] flex flex-col">
       {/* Header */}
-      <div className="p-3 border-b border-gray-200 dark:border-gray-700">
-        <h2 className="text-sm font-semibold text-gray-700 dark:text-gray-300">Database Explorer</h2>
+      <div className="p-3 border-b border-[var(--border-primary)]">
+        <h2 className="text-sm font-semibold text-[var(--text-primary)]">Database Explorer</h2>
       </div>
 
       {/* Tree Content */}
@@ -49,7 +49,7 @@ export function DatabaseTree({ connections, schemas, activeConnection, onConnect
         {/* Connections */}
         <div className="p-2">
           <div
-            className="flex items-center gap-2 px-2 py-1.5 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md cursor-pointer text-sm font-medium"
+            className="nav-item flex items-center gap-2 px-2 py-1.5 cursor-pointer text-sm"
             onClick={() => toggleExpanded('connections')}
           >
             {isExpanded('connections') ? <ChevronDown size={16} /> : <ChevronRight size={16} />}
@@ -62,8 +62,8 @@ export function DatabaseTree({ connections, schemas, activeConnection, onConnect
               {connections.map(conn => (
                 <div
                   key={conn.id}
-                  className={`flex items-center gap-2 px-2 py-1.5 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md cursor-pointer text-sm group ${
-                    activeConnection?.id === conn.id ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400' : ''
+                  className={`flex items-center gap-2 px-2 py-1.5 hover:bg-[var(--bg-secondary)] rounded-md cursor-pointer text-sm group ${
+                    activeConnection?.id === conn.id ? 'bg-[var(--synchrony-blue)]/10 text-[var(--synchrony-blue)]' : ''
                   }`}
                   onClick={() => onConnectionSelect(conn)}
                   onMouseEnter={() => setHoveredItem(conn.id)}
@@ -84,7 +84,7 @@ export function DatabaseTree({ connections, schemas, activeConnection, onConnect
         {activeConnection?.isConnected && (
           <div className="p-2">
             <div
-              className="flex items-center gap-2 px-2 py-1.5 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md cursor-pointer text-sm font-medium"
+              className="nav-item flex items-center gap-2 px-2 py-1.5 cursor-pointer text-sm"
               onClick={() => toggleExpanded('schemas')}
             >
               {isExpanded('schemas') ? <ChevronDown size={16} /> : <ChevronRight size={16} />}
@@ -97,7 +97,7 @@ export function DatabaseTree({ connections, schemas, activeConnection, onConnect
                 {schemas.map(schema => (
                   <div key={schema.name}>
                     <div
-                      className="flex items-center gap-2 px-2 py-1.5 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md cursor-pointer text-sm"
+                      className="nav-item flex items-center gap-2 px-2 py-1.5 cursor-pointer text-sm"
                       onClick={() => toggleExpanded(`schema-${schema.name}`)}
                     >
                       {isExpanded(`schema-${schema.name}`) ? <ChevronDown size={14} /> : <ChevronRight size={14} />}
@@ -108,7 +108,7 @@ export function DatabaseTree({ connections, schemas, activeConnection, onConnect
                       <div className="ml-4">
                         {/* Tables */}
                         <div
-                          className="flex items-center gap-2 px-2 py-1 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md cursor-pointer text-xs font-medium text-gray-600 dark:text-gray-400 group"
+                          className="nav-item flex items-center gap-2 px-2 py-1 cursor-pointer text-xs font-medium text-[var(--text-secondary)] group"
                           onClick={() => toggleExpanded(`tables-${schema.name}`)}
                           onMouseEnter={() => setHoveredItem(`tables-${schema.name}`)}
                           onMouseLeave={() => setHoveredItem(null)}
@@ -126,7 +126,7 @@ export function DatabaseTree({ connections, schemas, activeConnection, onConnect
                             {schema.tables.map(table => (
                               <div key={table.name}>
                                 <div
-                                  className="flex items-center gap-2 px-2 py-1 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md cursor-pointer text-xs group"
+                                  className="nav-item flex items-center gap-2 px-2 py-1 cursor-pointer text-xs group"
                                   onClick={() => toggleExpanded(`table-${schema.name}-${table.name}`)}
                                   onMouseEnter={() => setHoveredItem(`table-${schema.name}-${table.name}`)}
                                   onMouseLeave={() => setHoveredItem(null)}
@@ -134,7 +134,7 @@ export function DatabaseTree({ connections, schemas, activeConnection, onConnect
                                   {isExpanded(`table-${schema.name}-${table.name}`) ? <ChevronDown size={10} /> : <ChevronRight size={10} />}
                                   <Table size={10} />
                                   <span className="flex-1">{table.name}</span>
-                                  <span className="text-xs text-gray-500">{table.rowCount}</span>
+                                  <span className="text-xs text-[var(--text-muted)]">{table.rowCount}</span>
                                 </div>
 
                                 {isExpanded(`table-${schema.name}-${table.name}`) && (
@@ -142,17 +142,17 @@ export function DatabaseTree({ connections, schemas, activeConnection, onConnect
                                     {table.columns.map(column => (
                                       <div
                                         key={column.name}
-                                        className="flex items-center gap-2 px-2 py-0.5 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md text-xs"
+                                        className="flex items-center gap-2 px-2 py-0.5 hover:bg-[var(--bg-secondary)] rounded-md text-xs"
                                       >
                                         {column.isPrimaryKey ? (
-                                          <Key size={8} className="text-yellow-600" />
+                                          <Key size={8} className="text-[var(--synchrony-orange)]" />
                                         ) : column.isForeignKey ? (
-                                          <Link size={8} className="text-blue-600" />
+                                          <Link size={8} className="text-[var(--synchrony-blue)]" />
                                         ) : (
                                           <div className="w-2 h-2" />
                                         )}
                                         <span className="flex-1">{column.name}</span>
-                                        <span className="text-gray-500 text-xs">{column.type}</span>
+                                        <span className="text-[var(--text-muted)] text-xs">{column.type}</span>
                                       </div>
                                     ))}
                                   </div>
@@ -164,7 +164,7 @@ export function DatabaseTree({ connections, schemas, activeConnection, onConnect
 
                         {/* Views */}
                         <div
-                          className="flex items-center gap-2 px-2 py-1 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md cursor-pointer text-xs font-medium text-gray-600 dark:text-gray-400"
+                          className="nav-item flex items-center gap-2 px-2 py-1 cursor-pointer text-xs font-medium text-[var(--text-secondary)]"
                           onClick={() => toggleExpanded(`views-${schema.name}`)}
                         >
                           {isExpanded(`views-${schema.name}`) ? <ChevronDown size={12} /> : <ChevronRight size={12} />}
@@ -177,7 +177,7 @@ export function DatabaseTree({ connections, schemas, activeConnection, onConnect
                             {schema.views.map(view => (
                               <div
                                 key={view.name}
-                                className="flex items-center gap-2 px-2 py-1 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md cursor-pointer text-xs"
+                                className="nav-item flex items-center gap-2 px-2 py-1 cursor-pointer text-xs"
                               >
                                 <Eye size={10} />
                                 <span>{view.name}</span>
@@ -188,7 +188,7 @@ export function DatabaseTree({ connections, schemas, activeConnection, onConnect
 
                         {/* Functions */}
                         <div
-                          className="flex items-center gap-2 px-2 py-1 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md cursor-pointer text-xs font-medium text-gray-600 dark:text-gray-400"
+                          className="nav-item flex items-center gap-2 px-2 py-1 cursor-pointer text-xs font-medium text-[var(--text-secondary)]"
                           onClick={() => toggleExpanded(`functions-${schema.name}`)}
                         >
                           {isExpanded(`functions-${schema.name}`) ? <ChevronDown size={12} /> : <ChevronRight size={12} />}
@@ -201,7 +201,7 @@ export function DatabaseTree({ connections, schemas, activeConnection, onConnect
                             {schema.functions.map(func => (
                               <div
                                 key={func.name}
-                                className="flex items-center gap-2 px-2 py-1 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md cursor-pointer text-xs"
+                                className="nav-item flex items-center gap-2 px-2 py-1 cursor-pointer text-xs"
                               >
                                 <Zap size={10} />
                                 <span>{func.name}</span>
@@ -212,7 +212,7 @@ export function DatabaseTree({ connections, schemas, activeConnection, onConnect
 
                         {/* Sequences */}
                         <div
-                          className="flex items-center gap-2 px-2 py-1 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md cursor-pointer text-xs font-medium text-gray-600 dark:text-gray-400"
+                          className="nav-item flex items-center gap-2 px-2 py-1 cursor-pointer text-xs font-medium text-[var(--text-secondary)]"
                           onClick={() => toggleExpanded(`sequences-${schema.name}`)}
                         >
                           {isExpanded(`sequences-${schema.name}`) ? <ChevronDown size={12} /> : <ChevronRight size={12} />}
@@ -225,11 +225,11 @@ export function DatabaseTree({ connections, schemas, activeConnection, onConnect
                             {schema.sequences.map(seq => (
                               <div
                                 key={seq.name}
-                                className="flex items-center gap-2 px-2 py-1 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md cursor-pointer text-xs"
+                                className="nav-item flex items-center gap-2 px-2 py-1 cursor-pointer text-xs"
                               >
                                 <Hash size={10} />
                                 <span className="flex-1">{seq.name}</span>
-                                <span className="text-gray-500">{seq.currentValue}</span>
+                                <span className="text-[var(--text-muted)]">{seq.currentValue}</span>
                               </div>
                             ))}
                           </div>

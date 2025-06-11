@@ -52,11 +52,11 @@ export const AddConnectionModal: React.FC<AddConnectionModalProps> = ({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-      onSave({
-        ...formData,
-        createdAt: new Date().toISOString(),
-        lastUsed: new Date().toISOString(),
-      });
+    onSave({
+      ...formData,
+      createdAt: new Date().toISOString(),
+      lastUsed: new Date().toISOString(),
+    });
     handleClose();
   };
 
@@ -92,17 +92,17 @@ export const AddConnectionModal: React.FC<AddConnectionModalProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4">
-      <div className="bg-white rounded-xl shadow-xl w-full max-w-xl overflow-y-auto border border-gray-200">
-        <div className="relative bg-gradient-to-r from-indigo-600 to-blue-600 p-4 rounded-t-xl flex items-center justify-between">
+      <div className="card w-full max-w-xl overflow-y-auto border-0">
+        <div className="relative gradient-primary p-4 rounded-t-xl flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="p-2 bg-white/10 rounded-md">
               <Database className="w-5 h-5 text-white" />
             </div>
             <div>
-                <h2 className="text-xl font-bold text-white">Add New Connection</h2>
-                <p className="text-blue-100 text-sm">Configure your database connection</p>
-              </div>
+              <h2 className="text-xl font-bold text-white">Add New Connection</h2>
+              <p className="text-blue-100 text-sm">Configure your database connection</p>
             </div>
+          </div>
           <button onClick={onClose} className="text-white hover:text-white/90 p-2 rounded-md hover:bg-white/10">
             <X className="w-5 h-5" />
           </button>
@@ -111,7 +111,7 @@ export const AddConnectionModal: React.FC<AddConnectionModalProps> = ({
         <form onSubmit={handleSubmit} className="p-4 space-y-5">
           {/* Database Type */}
           <div>
-            <label className="text-sm font-medium text-gray-700 mb-1 block">Database Type</label>
+            <label className="text-sm font-medium text-[var(--text-primary)] mb-1 block">Database Type</label>
             <div className="flex gap-2">
               {(['PostgreSQL', 'MySQL', 'Oracle'] as DatabaseType[]).map((type) => (
                 <button
@@ -120,8 +120,8 @@ export const AddConnectionModal: React.FC<AddConnectionModalProps> = ({
                   onClick={() => handleTypeChange(type)}
                   className={`flex-1 py-2 rounded-md text-sm font-medium border transition
                     ${formData.type === type
-                      ? 'bg-indigo-600 text-white border-indigo-600 shadow'
-                      : 'bg-white border-gray-200 text-gray-700 hover:bg-gray-100'}
+                      ? 'bg-[var(--synchrony-blue)] text-white border-[var(--synchrony-blue)] shadow'
+                      : 'bg-[var(--bg-primary)] border-[var(--border-primary)] text-[var(--text-primary)] hover:bg-[var(--bg-secondary)]'}
                   `}
                 >
                   {type}
@@ -132,7 +132,7 @@ export const AddConnectionModal: React.FC<AddConnectionModalProps> = ({
 
           {/* Environment */}
           <div>
-            <label className="text-sm font-medium text-gray-700 mb-1 block">Environment</label>
+            <label className="text-sm font-medium text-[var(--text-primary)] mb-1 block">Environment</label>
             <div className="grid grid-cols-3 gap-2">
               {environmentOptions.map((env) => (
                 <button
@@ -141,8 +141,8 @@ export const AddConnectionModal: React.FC<AddConnectionModalProps> = ({
                   onClick={() => setFormData(prev => ({ ...prev, environment: env.value }))}
                   className={`flex items-center gap-2 px-3 py-2 rounded-md border text-sm transition
                     ${formData.environment === env.value
-                      ? 'bg-green-50 border-green-300 text-green-700 font-medium'
-                      : 'bg-white border-gray-200 text-gray-700 hover:bg-green-50'}
+                      ? 'bg-[var(--synchrony-teal)]/10 border-[var(--synchrony-teal)] text-[var(--synchrony-teal)] font-medium'
+                      : 'bg-[var(--bg-primary)] border-[var(--border-primary)] text-[var(--text-primary)] hover:bg-[var(--bg-secondary)]'}
                   `}
                 >
                   <span>{env.icon}</span>
@@ -160,19 +160,19 @@ export const AddConnectionModal: React.FC<AddConnectionModalProps> = ({
             <Input label="Port *" type="number" value={formData.port.toString()} required onChange={(val) => setFormData(prev => ({ ...prev, port: parseInt(val) }))} />
             <Input label="Username *" value={formData.username} required onChange={(val) => setFormData(prev => ({ ...prev, username: val }))} placeholder="e.g., admin" />
             <div>
-              <label className="text-sm font-medium text-gray-700 mb-1 block">Password</label>
+              <label className="text-sm font-medium text-[var(--text-primary)] mb-1 block">Password</label>
               <div className="relative">
                 <input
                   type={showPassword ? 'text' : 'password'}
                   value={formData.password}
                   onChange={(e) => setFormData(prev => ({ ...prev, password: e.target.value }))}
-                  className="w-full px-3 py-2 pr-10 border rounded-md border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:outline-none text-sm"
+                  className="form-input w-full px-3 py-2 pr-10 text-sm"
                   placeholder="••••••••"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                  className="absolute right-2 top-1/2 -translate-y-1/2 text-[var(--text-muted)] hover:text-[var(--text-secondary)]"
                 >
                   {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </button>
@@ -184,8 +184,8 @@ export const AddConnectionModal: React.FC<AddConnectionModalProps> = ({
           {testResult && (
             <div className={`flex items-center space-x-3 p-4 rounded-xl border-2 ${
               testResult === 'success' 
-                ? 'bg-green-50 text-green-800 border-green-200' 
-                : 'bg-red-50 text-red-800 border-red-200'
+                ? 'status-success border-green-200 dark:border-green-800' 
+                : 'status-error border-red-200 dark:border-red-800'
             }`}>
               {testResult === 'success' ? (
                 <Check className="w-5 h-5 flex-shrink-0" />
@@ -215,7 +215,7 @@ export const AddConnectionModal: React.FC<AddConnectionModalProps> = ({
               type="button"
               onClick={handleTestConnection}
               disabled={isTestingConnection}
-              className="flex-1 bg-gradient-to-r from-green-600 to-emerald-600 text-white py-1.5 text-sm px-6 rounded-md hover:from-green-700 hover:to-emerald-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-all font-semibold shadow-lg hover:shadow-xl flex items-center justify-center space-x-2"
+              className="btn-secondary flex-1 py-1.5 text-sm px-6 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
             >
               {isTestingConnection ? (
                 <>
@@ -233,14 +233,14 @@ export const AddConnectionModal: React.FC<AddConnectionModalProps> = ({
             <button
               type="button"
               onClick={handleClose}
-              className="px-6 py-1.5 text-sm text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-all font-semibold"
+              className="btn-ghost px-6 py-1.5 text-sm"
             >
               Cancel
             </button>
             
             <button
               type="submit"
-              className="flex-1 bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-1.5 text-sm px-6 rounded-md hover:from-blue-700 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all font-semibold shadow-lg hover:shadow-xl flex items-center justify-center space-x-2"
+              className="btn-primary flex-1 py-1.5 text-sm px-6 flex items-center justify-center space-x-2"
             >
               <Sparkles className="w-4 h-4" />
               <span>Create Connection</span>
@@ -248,8 +248,7 @@ export const AddConnectionModal: React.FC<AddConnectionModalProps> = ({
           </div>
         </form>
       </div>
-
-      </div>
+    </div>
   );
 };
 
@@ -270,13 +269,13 @@ const Input = ({
   type?: string;
 }) => (
   <div>
-    <label className="text-sm font-medium text-gray-700 mb-1 block">{label}</label>
+    <label className="text-sm font-medium text-[var(--text-primary)] mb-1 block">{label}</label>
     <input
       type={type}
       value={value}
       required={required}
       onChange={(e) => onChange(e.target.value)}
-      className="w-full px-3 py-2 border rounded-md border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:outline-none text-sm"
+      className="form-input w-full px-3 py-2 text-sm"
       placeholder={placeholder}
     />
   </div>

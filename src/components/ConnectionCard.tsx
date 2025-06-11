@@ -1,4 +1,3 @@
-// unchanged imports
 import React, { useState } from "react";
 import { Connection } from "../types/Connection";
 import {
@@ -23,33 +22,23 @@ interface ConnectionCardProps {
 const environmentConfig = {
   dev: {
     icon: "🔧",
-    badge: "bg-green-600",
-    border: "border-green-200",
-    bg: "bg-green-50",
+    class: "env-dev",
   },
   qa: {
     icon: "🧪",
-    badge: "bg-blue-600",
-    border: "border-blue-200",
-    bg: "bg-blue-50",
+    class: "env-qa",
   },
   staging: {
     icon: "🎭",
-    badge: "bg-yellow-600",
-    border: "border-yellow-200",
-    bg: "bg-yellow-50",
+    class: "env-staging",
   },
   uat: {
     icon: "👥",
-    badge: "bg-purple-600",
-    border: "border-purple-200",
-    bg: "bg-purple-50",
+    class: "env-uat",
   },
   prod: {
     icon: "🚀",
-    badge: "bg-red-600",
-    border: "border-red-200",
-    bg: "bg-red-50",
+    class: "env-prod",
   },
 };
 
@@ -88,18 +77,17 @@ export const ConnectionCard: React.FC<ConnectionCardProps> = ({
         ref={setNodeRef}
         style={style}
         className={`
-          group relative rounded-xl border ${envConfig.border} ${envConfig.bg}
-          shadow-sm hover:shadow-md transition-all duration-200 p-4
+          group relative card p-4 hover:shadow-[0_8px_25px_var(--shadow-medium)]
           ${isDragging ? "opacity-60 scale-[1.02]" : "hover:scale-[1.01]"}
         `}
       >
         {/* Header */}
         <div className="flex items-start justify-between mb-3">
           <div className="flex items-center gap-2">
-            <div className={`p-2 rounded-md ${envConfig.badge}`}>
+            <div className="gradient-primary p-2 rounded-md">
               <Database className="w-4 h-4 text-white" />
             </div>
-            <h3 className="text-sm font-semibold text-gray-900 truncate">
+            <h3 className="text-sm font-semibold text-[var(--text-primary)] truncate">
               {connection.connectionName}
             </h3>
           </div>
@@ -109,28 +97,28 @@ export const ConnectionCard: React.FC<ConnectionCardProps> = ({
             <div
               {...attributes}
               {...listeners}
-              className="p-1 rounded cursor-grab active:cursor-grabbing bg-white hover:bg-gray-100 border border-gray-200"
+              className="p-1 rounded cursor-grab active:cursor-grabbing bg-[var(--bg-secondary)] hover:bg-[var(--bg-tertiary)] border border-[var(--border-primary)]"
               title="Drag to reorder"
             >
-              <Grip className="w-4 h-4 text-gray-500" />
+              <Grip className="w-4 h-4 text-[var(--text-secondary)]" />
             </div>
             <button
               onClick={() => onUpdatePassword(connection)}
-              className="p-1 rounded hover:bg-green-100 text-green-600"
+              className="p-1 rounded hover:bg-[var(--synchrony-teal)]/10 text-[var(--synchrony-teal)]"
               title="Update password"
             >
               <Key className="w-4 h-4" />
             </button>
             <button
               onClick={() => onEdit(connection)}
-              className="p-1 rounded hover:bg-blue-100 text-blue-600"
+              className="p-1 rounded hover:bg-[var(--synchrony-blue)]/10 text-[var(--synchrony-blue)]"
               title="Edit connection"
             >
               <Edit3 className="w-4 h-4" />
             </button>
             <button
               onClick={() => setShowConfirmModal(true)}
-              className="p-1 rounded hover:bg-red-100 text-red-600"
+              className="p-1 rounded hover:bg-red-100 dark:hover:bg-red-900/30 text-red-600"
               title="Delete connection"
             >
               <Trash2 className="w-4 h-4" />
@@ -139,13 +127,13 @@ export const ConnectionCard: React.FC<ConnectionCardProps> = ({
         </div>
 
         {/* Info */}
-        <div className="space-y-2 text-sm text-gray-800">
+        <div className="space-y-2 text-sm text-[var(--text-primary)]">
           <div className="flex items-center gap-2">
-            <Network className="w-4 h-4 text-gray-400" />
+            <Network className="w-4 h-4 text-[var(--text-muted)]" />
             <span className="truncate">{connection.username}</span>
           </div>
           <div className="flex items-center gap-2">
-            <User className="w-4 h-4 text-gray-400" />
+            <User className="w-4 h-4 text-[var(--text-muted)]" />
             <span className="truncate">
               {connection.host}:{connection.port}
             </span>
@@ -153,15 +141,11 @@ export const ConnectionCard: React.FC<ConnectionCardProps> = ({
         </div>
 
         {/* Tags */}
-        <div className={`mt-3 pt-2 border-t ${envConfig.border} flex gap-3`}>
-          <span
-            className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium text-white ${envConfig.badge}`}
-          >
+        <div className="mt-3 pt-2 border-t border-[var(--border-primary)] flex gap-3">
+          <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-[var(--synchrony-blue)] text-white">
             {connection.type}
           </span>
-          <span
-            className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium text-white ${envConfig.badge}`}
-          >
+          <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${envConfig.class}`}>
             {envConfig.icon}
             <span className="ml-1 uppercase">{connection.environment}</span>
           </span>
@@ -171,30 +155,30 @@ export const ConnectionCard: React.FC<ConnectionCardProps> = ({
       {/* Confirm Modal */}
       {showConfirmModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40 px-4">
-          <div className="bg-white rounded-lg shadow-lg max-w-sm w-full p-6 relative animate-fade-in">
+          <div className="card max-w-sm w-full p-6 relative animate-fade-in">
             <div className="flex items-center gap-2 mb-4">
-              <div className="bg-red-100 p-2 rounded-full">
+              <div className="bg-red-100 dark:bg-red-900/30 p-2 rounded-full">
                 <Trash2 className="w-5 h-5 text-red-600" />
               </div>
-              <h2 className="text-lg font-semibold text-gray-800">
+              <h2 className="text-lg font-semibold text-[var(--text-primary)]">
                 Confirm Deletion
               </h2>
             </div>
-            <p className="text-sm text-gray-600 mb-6">
+            <p className="text-sm text-[var(--text-secondary)] mb-6">
               Are you sure you want to delete{" "}
-              <strong className="text-gray-800">{connection.connectionName}</strong>?<br />
+              <strong className="text-[var(--text-primary)]">{connection.connectionName}</strong>?<br />
               This action cannot be undone.
             </p>
             <div className="flex justify-end gap-3">
               <button
                 onClick={() => setShowConfirmModal(false)}
-                className="px-4 py-2 rounded-md bg-gray-100 hover:bg-gray-200 text-sm text-gray-700"
+                className="btn-ghost px-4 py-2 text-sm"
               >
                 Cancel
               </button>
               <button
                 onClick={handleDeleteConfirmed}
-                className="px-4 py-2 rounded-md bg-red-600 hover:bg-red-700 text-sm text-white"
+                className="px-4 py-2 rounded-md bg-red-600 hover:bg-red-700 text-sm text-white transition-colors"
               >
                 Delete
               </button>

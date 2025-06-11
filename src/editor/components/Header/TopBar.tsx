@@ -48,12 +48,12 @@ export function TopBar({
   const [showLimitDropdown, setShowLimitDropdown] = useState(false);
 
   return (
-    <div className="h-12 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 flex items-center px-4 gap-4">
+    <div className="h-12 bg-[var(--bg-primary)] border-b border-[var(--border-primary)] flex items-center px-4 gap-4">
       {/* Connection Selector */}
       <div className="relative">
         <button
           onClick={() => setShowConnectionDropdown(!showConnectionDropdown)}
-          className="flex items-center gap-2 px-3 py-1.5 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-md text-sm font-medium transition-colors"
+          className="flex items-center gap-2 px-3 py-1.5 bg-[var(--bg-secondary)] hover:bg-[var(--bg-tertiary)] rounded-md text-sm font-medium transition-colors"
         >
           <Database size={16} />
           {activeConnection ? activeConnection.label : 'No Connection'}
@@ -61,7 +61,7 @@ export function TopBar({
         </button>
         
         {showConnectionDropdown && (
-          <div className="absolute top-full left-0 mt-1 w-64 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-md shadow-lg z-50">
+          <div className="absolute top-full left-0 mt-1 w-64 card border-0 z-50">
             <div className="p-2">
               {connections.map(conn => (
                 <button
@@ -70,24 +70,24 @@ export function TopBar({
                     onConnectionChange(conn);
                     setShowConnectionDropdown(false);
                   }}
-                  className={`w-full text-left px-3 py-2 rounded-md text-sm hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center gap-2 ${
-                    activeConnection?.id === conn.id ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400' : ''
+                  className={`w-full text-left px-3 py-2 rounded-md text-sm hover:bg-[var(--bg-secondary)] flex items-center gap-2 ${
+                    activeConnection?.id === conn.id ? 'bg-[var(--synchrony-blue)]/10 text-[var(--synchrony-blue)]' : ''
                   }`}
                 >
                   <div className={`w-2 h-2 rounded-full ${conn.isConnected ? 'bg-green-500' : 'bg-red-500'}`} />
                   <div>
                     <div className="font-medium">{conn.label}</div>
-                    <div className="text-xs text-gray-500 dark:text-gray-400">{conn.host}:{conn.port}</div>
+                    <div className="text-xs text-[var(--text-muted)]">{conn.host}:{conn.port}</div>
                   </div>
                 </button>
               ))}
-              <hr className="my-2 border-gray-200 dark:border-gray-700" />
+              <hr className="my-2 border-[var(--border-primary)]" />
               <button
                 onClick={() => {
                   onOpenConnectionManager();
                   setShowConnectionDropdown(false);
                 }}
-                className="w-full text-left px-3 py-2 rounded-md text-sm hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center gap-2 text-blue-600 dark:text-blue-400"
+                className="w-full text-left px-3 py-2 rounded-md text-sm hover:bg-[var(--bg-secondary)] flex items-center gap-2 text-[var(--synchrony-blue)]"
               >
                 <Plus size={16} />
                 Add Connection
@@ -104,19 +104,19 @@ export function TopBar({
             key={tab.id}
             className={`flex items-center gap-2 px-3 py-1.5 rounded-md text-sm cursor-pointer transition-colors ${
               tab.isActive 
-                ? 'bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-800' 
-                : 'hover:bg-gray-100 dark:hover:bg-gray-700'
+                ? 'bg-[var(--synchrony-blue)]/10 text-[var(--synchrony-blue)] border border-[var(--synchrony-blue)]/20' 
+                : 'hover:bg-[var(--bg-secondary)]'
             }`}
             onClick={() => onTabChange(tab.id)}
           >
             <span>{tab.title}</span>
-            {tab.isDirty && <div className="w-1.5 h-1.5 bg-orange-500 rounded-full" />}
+            {tab.isDirty && <div className="w-1.5 h-1.5 bg-[var(--synchrony-orange)] rounded-full" />}
             <button
               onClick={(e) => {
                 e.stopPropagation();
                 onCloseTab(tab.id);
               }}
-              className="hover:bg-gray-200 dark:hover:bg-gray-600 rounded p-0.5"
+              className="hover:bg-[var(--bg-tertiary)] rounded p-0.5"
             >
               <X size={12} />
             </button>
@@ -124,7 +124,7 @@ export function TopBar({
         ))}
         <button
           onClick={onNewTab}
-          className="p-1.5 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors"
+          className="p-1.5 hover:bg-[var(--bg-secondary)] rounded-md transition-colors"
           title="New Tab"
         >
           <Plus size={16} />
@@ -137,14 +137,14 @@ export function TopBar({
         <div className="relative">
           <button
             onClick={() => setShowLimitDropdown(!showLimitDropdown)}
-            className="flex items-center gap-1 px-2 py-1 text-xs bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded transition-colors"
+            className="flex items-center gap-1 px-2 py-1 text-xs bg-[var(--bg-secondary)] hover:bg-[var(--bg-tertiary)] rounded transition-colors"
           >
             LIMIT {queryLimit}
             <ChevronDown size={12} />
           </button>
           
           {showLimitDropdown && (
-            <div className="absolute top-full right-0 mt-1 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-md shadow-lg z-50">
+            <div className="absolute top-full right-0 mt-1 card border-0 z-50">
               {QUERY_LIMITS.map(limit => (
                 <button
                   key={limit}
@@ -152,8 +152,8 @@ export function TopBar({
                     onQueryLimitChange(limit);
                     setShowLimitDropdown(false);
                   }}
-                  className={`w-full text-left px-3 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700 ${
-                    queryLimit === limit ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400' : ''
+                  className={`w-full text-left px-3 py-2 text-sm hover:bg-[var(--bg-secondary)] ${
+                    queryLimit === limit ? 'bg-[var(--synchrony-blue)]/10 text-[var(--synchrony-blue)]' : ''
                   }`}
                 >
                   LIMIT {limit}
@@ -167,7 +167,7 @@ export function TopBar({
         <button
           onClick={onRunQuery}
           disabled={!activeConnection?.isConnected}
-          className="flex items-center gap-2 px-3 py-1.5 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed text-white rounded-md text-sm font-medium transition-colors"
+          className="btn-primary flex items-center gap-2 px-3 py-1.5 text-sm disabled:opacity-50 disabled:cursor-not-allowed"
         >
           <Play size={14} />
           Run
@@ -176,13 +176,13 @@ export function TopBar({
         {/* Theme Toggle */}
         <button
           onClick={toggleTheme}
-          className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors"
+          className="p-2 hover:bg-[var(--bg-secondary)] rounded-md transition-colors"
         >
           {theme === 'light' ? <Moon size={16} /> : <Sun size={16} />}
         </button>
 
         {/* Settings */}
-        <button className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors">
+        <button className="p-2 hover:bg-[var(--bg-secondary)] rounded-md transition-colors">
           <Settings size={16} />
         </button>
       </div>

@@ -17,10 +17,14 @@ import {
   Shield,
   GitBranch,
   Code,
+  Sun,
+  Moon,
 } from "lucide-react";
 import Editor from "./editor/Editor";
+import { useTheme } from "./hooks/useTheme";
 
 function App() {
+  const { theme, toggleTheme } = useTheme();
   const {
     connections,
     loading,
@@ -106,20 +110,20 @@ function App() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 flex items-center justify-center">
+      <div className="min-h-screen bg-[var(--bg-primary)] flex items-center justify-center">
         <div className="text-center">
           <div className="relative">
-            <div className="w-20 h-20 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl flex items-center justify-center mb-6 mx-auto shadow-2xl">
-              <Database className="w-10 h-10 text-white animate-pulse" />
+            <div className="w-20 h-20 gradient-primary rounded-2xl flex items-center justify-center mb-6 mx-auto shadow-[0_8px_25px_var(--shadow-medium)]">
+              <Database className="w-10 h-10 text-white animate-pulse-brand" />
             </div>
             <div className="absolute -top-2 -right-2">
-              <Sparkles className="w-6 h-6 text-yellow-400 animate-bounce" />
+              <Sparkles className="w-6 h-6 text-brand-accent animate-bounce" />
             </div>
           </div>
-          <h3 className="text-xl font-bold text-gray-900 mb-2">
+          <h3 className="text-xl font-bold text-[var(--text-primary)] mb-2">
             Loading Connections
           </h3>
-          <p className="text-gray-600">
+          <p className="text-[var(--text-secondary)]">
             Preparing your premium database interface...
           </p>
         </div>
@@ -137,21 +141,21 @@ function App() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
+    <div className="min-h-screen bg-[var(--bg-primary)]">
       <div className="max-w-7xl mx-auto px-4 py-8">
-        <div className="mb-8 ">
+        <div className="mb-8">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
               <div className="relative">
-                <div className="bg-gradient-to-r from-blue-600 to-indigo-600 p-3 rounded-2xl shadow-lg">
+                <div className="gradient-primary p-3 rounded-2xl shadow-[0_8px_25px_var(--shadow-medium)]">
                   <Database className="w-8 h-8 text-white" />
                 </div>
               </div>
               <div>
-                <h1 className="text-4xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent">
+                <h1 className="text-4xl font-bold text-[var(--text-primary)]">
                   Universal SQL Editor
                 </h1>
-                <p className="text-gray-600 mt-1 flex items-center space-x-2">
+                <p className="text-[var(--text-secondary)] mt-1 flex items-center space-x-2">
                   <Shield className="w-4 h-4" />
                   <span>
                     Seamlessly Connect, Manage and Scale Across Multiple
@@ -160,12 +164,22 @@ function App() {
                 </p>
               </div>
             </div>
+            
+            {/* Theme Toggle */}
+            <button
+              onClick={toggleTheme}
+              className="btn-ghost p-3 rounded-xl"
+              title={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
+            >
+              {theme === 'light' ? <Moon className="w-5 h-5" /> : <Sun className="w-5 h-5" />}
+            </button>
           </div>
         </div>
-        <div className="flex gap-3 mb-6 absolute top-3 right-3">
+
+        <div className="flex gap-3 mb-6 absolute top-3 right-16">
           <button
             onClick={() => setActiveView("editor")}
-            className="flex items-center gap-2 px-4 py-2 rounded-md font-medium text-sm transition-all duration-200 bg-purple-600 text-white shadow hover:bg-purple-700"
+            className="btn-accent flex items-center gap-2 px-4 py-2 text-sm"
           >
             <Code className="w-4 h-4" />
             <span>SQL Editor</span>
@@ -173,7 +187,7 @@ function App() {
 
           <button
             onClick={() => setActiveView("migration")}
-            className="flex items-center gap-2 px-4 py-2 rounded-md font-medium text-sm transition-all duration-200 bg-indigo-600 text-white shadow hover:bg-indigo-700"
+            className="btn-primary flex items-center gap-2 px-4 py-2 text-sm"
           >
             <GitBranch className="w-4 h-4" />
             <span>Migration</span>
@@ -184,7 +198,7 @@ function App() {
         <div className="flex flex-wrap gap-3 mb-6 justify-end absolute right-5 top-20">
           <button
             onClick={() => setIsAddModalOpen(true)}
-            className="inline-flex items-center gap-2 bg-yellow-500 text-white text-sm px-4 py-2 rounded-md hover:bg-yellow-600 transition-colors duration-150 font-medium shadow-sm"
+            className="btn-secondary inline-flex items-center gap-2 text-sm px-4 py-2"
           >
             <Plus className="w-4 h-4" />
             <span>Add Connection</span>
@@ -193,7 +207,7 @@ function App() {
           <button
             onClick={handleExport}
             disabled={connections.length === 0}
-            className="inline-flex items-center gap-2 bg-green-600 text-white text-sm px-4 py-2 rounded-md hover:bg-green-700 transition-colors duration-150 font-medium shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
+            className="btn-outline inline-flex items-center gap-2 text-sm px-4 py-2 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <Download className="w-4 h-4" />
             <span>Export</span>
@@ -201,7 +215,7 @@ function App() {
 
           <button
             onClick={handleImport}
-            className="inline-flex items-center gap-2 bg-gray-700 text-white text-sm px-4 py-2 rounded-md hover:bg-gray-800 transition-colors duration-150 font-medium shadow-sm"
+            className="btn-ghost inline-flex items-center gap-2 text-sm px-4 py-2 border border-[var(--border-primary)]"
           >
             <Upload className="w-4 h-4" />
             <span>Import</span>
@@ -218,22 +232,22 @@ function App() {
         </div>
 
         {/* Connection List */}
-        <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-white/50 p-8">
+        <div className="card-elevated p-8">
           <div className="flex items-center justify-between mb-8">
             <div>
-              <h2 className="text-2xl font-bold text-gray-900 flex items-center space-x-2">
+              <h2 className="text-2xl font-bold text-[var(--text-primary)] flex items-center space-x-2">
                 <span>{activeTab} Connections</span>
-                <div className="px-3 py-1 bg-gradient-to-r from-blue-100 to-indigo-100 text-blue-800 text-sm font-semibold rounded-full">
+                <div className="px-3 py-1 bg-[var(--synchrony-blue)] text-white text-sm font-semibold rounded-full">
                   {currentConnections.length}
                 </div>
               </h2>
-              <p className="text-gray-600 mt-1">
+              <p className="text-[var(--text-secondary)] mt-1">
                 Manage your {activeTab.toLowerCase()} database connections
                 across all environments
               </p>
             </div>
 
-            <div className="hidden sm:flex items-center space-x-2 text-sm text-gray-500">
+            <div className="hidden sm:flex items-center space-x-2 text-sm text-[var(--text-muted)]">
               <Sparkles className="w-4 h-4" />
               <span>Drag to reorder</span>
             </div>
