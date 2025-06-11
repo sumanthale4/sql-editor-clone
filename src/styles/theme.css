@@ -5,9 +5,9 @@
 /* Synchrony Financial Brand Colors */
 :root {
   /* Primary Colors */
-  --synchrony-blue: #0033A1;
-  --synchrony-teal: #00B3B3;
-  --synchrony-orange: #FF6B00;
+  --synchrony-blue: #fbc600;
+  --synchrony-teal: #3b3d49;
+  --synchrony-orange: #fff;
   
   /* Light Mode */
   --bg-primary: #FFFFFF;
