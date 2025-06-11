@@ -16,7 +16,9 @@ import {
   Sparkles,
   Shield,
   GitBranch,
+  Code,
 } from "lucide-react";
+import Editor from "./editor/Editor";
 
 function App() {
   const {
@@ -30,9 +32,9 @@ function App() {
     getConnectionsByType,
   } = useConnections();
 
-  const [activeView, setActiveView] = useState<"connections" | "migration">(
-    "connections"
-  );
+  const [activeView, setActiveView] = useState<
+    "connections" | "migration" | "editor"
+  >("connections");
   const [activeTab, setActiveTab] = useState<DatabaseType>("PostgreSQL");
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -129,6 +131,10 @@ function App() {
   if (activeView === "migration") {
     return <DatabaseMigration setActiveView={setActiveView} />;
   }
+  // Show SQL Editor
+  if (activeView === "editor") {
+    return <Editor />;
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
@@ -156,14 +162,23 @@ function App() {
             </div>
           </div>
         </div>
+        <div className="flex gap-3 mb-6 absolute top-3 right-3">
+          <button
+            onClick={() => setActiveView("editor")}
+            className="flex items-center gap-2 px-4 py-2 rounded-md font-medium text-sm transition-all duration-200 bg-purple-600 text-white shadow hover:bg-purple-700"
+          >
+            <Code className="w-4 h-4" />
+            <span>SQL Editor</span>
+          </button>
 
-        <button
-          onClick={() => setActiveView("migration")}
-          className={` absolute top-3 right-3 flex items-center gap-2 px-4 py-2 rounded-md font-medium text-sm transition-all duration-200 flex-1 justify-center ${"bg-indigo-600 text-white shadow"}`}
-        >
-          <GitBranch className="w-4 h-4" />
-          <span>Migration</span>
-        </button>
+          <button
+            onClick={() => setActiveView("migration")}
+            className="flex items-center gap-2 px-4 py-2 rounded-md font-medium text-sm transition-all duration-200 bg-indigo-600 text-white shadow hover:bg-indigo-700"
+          >
+            <GitBranch className="w-4 h-4" />
+            <span>Migration</span>
+          </button>
+        </div>
 
         {/* Action Buttons */}
         <div className="flex flex-wrap gap-3 mb-6 justify-end absolute right-5 top-20">
