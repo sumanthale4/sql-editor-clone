@@ -127,14 +127,13 @@ function App() {
 
   // Show migration view
   if (activeView === "migration") {
-    return <DatabaseMigration setActiveView={setActiveView}  />;
+    return <DatabaseMigration setActiveView={setActiveView} />;
   }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
       <div className="max-w-7xl mx-auto px-4 py-8">
-        {/* Header */}
-        <div className="mb-8">
+        <div className="mb-8 ">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
               <div className="relative">
@@ -167,10 +166,10 @@ function App() {
         </button>
 
         {/* Action Buttons */}
-        <div className="flex flex-wrap gap-3 mb-6">
+        <div className="flex flex-wrap gap-3 mb-6 justify-end absolute right-5 top-20">
           <button
             onClick={() => setIsAddModalOpen(true)}
-            className="inline-flex items-center gap-1 bg-gradient-to-r from-blue-500 to-indigo-500 text-white text-sm px-4 py-2 rounded-lg hover:from-blue-600 hover:to-indigo-600 transition-all duration-150 font-medium shadow-md hover:shadow-lg transform hover:scale-105"
+            className="inline-flex items-center gap-2 bg-blue-600 text-white text-sm px-4 py-2 rounded-md hover:bg-blue-700 transition-colors duration-150 font-medium shadow-sm"
           >
             <Plus className="w-4 h-4" />
             <span>Add Connection</span>
@@ -179,7 +178,7 @@ function App() {
           <button
             onClick={handleExport}
             disabled={connections.length === 0}
-            className="inline-flex items-center gap-1 bg-gradient-to-r from-green-500 to-emerald-500 text-white text-sm px-4 py-2 rounded-lg hover:from-green-600 hover:to-emerald-600 transition-all duration-150 font-medium shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none transform hover:scale-105"
+            className="inline-flex items-center gap-2 bg-green-600 text-white text-sm px-4 py-2 rounded-md hover:bg-green-700 transition-colors duration-150 font-medium shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <Download className="w-4 h-4" />
             <span>Export</span>
@@ -187,7 +186,7 @@ function App() {
 
           <button
             onClick={handleImport}
-            className="inline-flex items-center gap-1 bg-gradient-to-r from-purple-500 to-pink-500 text-white text-sm px-4 py-2 rounded-lg hover:from-purple-600 hover:to-pink-600 transition-all duration-150 font-medium shadow-md hover:shadow-lg transform hover:scale-105"
+            className="inline-flex items-center gap-2 bg-gray-700 text-white text-sm px-4 py-2 rounded-md hover:bg-gray-800 transition-colors duration-150 font-medium shadow-sm"
           >
             <Upload className="w-4 h-4" />
             <span>Import</span>

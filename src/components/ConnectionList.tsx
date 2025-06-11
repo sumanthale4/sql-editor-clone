@@ -18,15 +18,15 @@ import {
 } from "@dnd-kit/sortable";
 import { Database, Sparkles } from "lucide-react";
 
-interface ConnectionListProps {
+
+export interface ConnectionListProps {
   connections: Connection[];
   type: DatabaseType;
   onDelete: (id: string) => void;
   onEdit: (connection: Connection) => void;
-  onUpdatePassword: (connection: Connection) => void;
   onReorder: (type: DatabaseType, newOrder: Connection[]) => void;
+  onUpdatePassword: (connection: Connection) => void;
 }
-
 export const ConnectionList: React.FC<ConnectionListProps> = ({
   connections,
   type,
