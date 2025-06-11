@@ -7,6 +7,7 @@ import { AddConnectionModal } from "./components/AddConnectionModal";
 import { EditConnectionModal } from "./components/EditConnectionModal";
 import { PasswordUpdateModal } from "./components/PasswordUpdateModal";
 import { DatabaseMigration } from "./components/DatabaseMigration";
+import { SQLEditor } from "./components/SQLEditor";
 import { exportConnections, importConnections } from "./utils/importExport";
 import {
   Plus,
@@ -16,6 +17,7 @@ import {
   Sparkles,
   Shield,
   GitBranch,
+  Code,
 } from "lucide-react";
 
 function App() {
@@ -30,7 +32,7 @@ function App() {
     getConnectionsByType,
   } = useConnections();
 
-  const [activeView, setActiveView] = useState<"connections" | "migration">(
+  const [activeView, setActiveView] = useState<"connections" | "migration" | "editor">(
     "connections"
   );
   const [activeTab, setActiveTab] = useState<DatabaseType>("PostgreSQL");
@@ -125,6 +127,11 @@ function App() {
     );
   }
 
+  // Show SQL Editor
+  if (activeView === "editor") {
+    return <SQLEditor setActiveView={setActiveView} />;
+  }
+
   // Show migration view
   if (activeView === "migration") {
     return <DatabaseMigration setActiveView={setActiveView} />;
@@ -157,13 +164,24 @@ function App() {
           </div>
         </div>
 
-        <button
-          onClick={() => setActiveView("migration")}
-          className={` absolute top-3 right-3 flex items-center gap-2 px-4 py-2 rounded-md font-medium text-sm transition-all duration-200 flex-1 justify-center ${"bg-indigo-600 text-white shadow"}`}
-        >
-          <GitBranch className="w-4 h-4" />
-          <span>Migration</span>
-        </button>
+        {/* Navigation Buttons */}
+        <div className="flex gap-3 mb-6 absolute top-3 right-3">
+          <button
+            onClick={() => setActiveView("editor")}
+            className="flex items-center gap-2 px-4 py-2 rounded-md font-medium text-sm transition-all duration-200 bg-purple-600 text-white shadow hover:bg-purple-700"
+          >
+            <Code className="w-4 h-4" />
+            <span>SQL Editor</span>
+          </button>
+          
+          <button
+            onClick={() => setActiveView("migration")}
+            className="flex items-center gap-2 px-4 py-2 rounded-md font-medium text-sm transition-all duration-200 bg-indigo-600 text-white shadow hover:bg-indigo-700"
+          >
+            <GitBranch className="w-4 h-4" />
+            <span>Migration</span>
+          </button>
+        </div>
 
         {/* Action Buttons */}
         <div className="flex flex-wrap gap-3 mb-6 justify-end absolute right-5 top-20">
