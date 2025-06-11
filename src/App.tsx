@@ -169,7 +169,7 @@ function App() {
         <div className="flex flex-wrap gap-3 mb-6 justify-end absolute right-5 top-20">
           <button
             onClick={() => setIsAddModalOpen(true)}
-            className="inline-flex items-center gap-2 bg-blue-600 text-white text-sm px-4 py-2 rounded-md hover:bg-blue-700 transition-colors duration-150 font-medium shadow-sm"
+            className="inline-flex items-center gap-2 bg-yellow-500 text-white text-sm px-4 py-2 rounded-md hover:bg-yellow-600 transition-colors duration-150 font-medium shadow-sm"
           >
             <Plus className="w-4 h-4" />
             <span>Add Connection</span>
